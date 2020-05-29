@@ -25,6 +25,8 @@
     "transformer"
   ],
   "dependencies": {
+    "@types/bson": "*",
+    "bson": "*",
     "yn": "^4.0.0"
   },
   "devDependencies": {

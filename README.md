@@ -66,6 +66,32 @@ const user = plainToClass(User, { isAdmin: 'true' });
 console.log(user.isAdmin); // true
 ```
 
+### @ToObjectId()
+
+Transform an object id value to string an vice versa using the following conventions:
+
+- It will do nothing if the value is undefined
+- plain to class or class to class: If the object is a string it uses new ObjectId(value)
+- class to plain: converts the object id to it string representation
+
+```typescript
+import { ToObjectId } from '@newtral/class-transformer';
+import { ObjectId } from 'bson';
+import { classToPlain, plainToClass } from 'class-transformer';
+
+class User {
+  @ToObjectId()
+  _id: ObjectId;
+}
+
+const user = plainToClass(User, { _id: '5ed116e81723fcd8ed3d230b' });
+console.log(user._id instanceof ObjectId); // true
+
+const plainUser = classToPlain(user);
+console.log(typeof user._id); // 'string'
+console.log(user._id); // '5ed116e81723fcd8ed3d230b'
+```
+
 ## Development
 
 The project use [husky](https://github.com/typicode/husky) and
