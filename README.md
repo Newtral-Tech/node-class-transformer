@@ -28,6 +28,25 @@ const client = plainToClass(Client, { baseUrl: 'https://example.com' });
 console.log(client.baseUrl); // 'https://example.com'
 ```
 
+### @ToArray(defaultValue)
+
+Transform the property into an array. When the value is undefined there is not action. When the
+value is not an array it gets transformer into an array of one element. This could be useful when
+obtaining multiple query string values but the user only selects one item.
+
+```typescript
+import { ToArray } from '@newtral/class-transformer';
+import { plainToClass } from 'class-transformer';
+
+class User {
+  @ToArray()
+  postIds: string[];
+}
+
+const client = plainToClass(User, { postIds: '12345' });
+console.log(client.postIds); // ['2345']
+```
+
 ## Development
 
 The project use [husky](https://github.com/typicode/husky) and
