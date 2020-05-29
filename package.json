@@ -24,7 +24,9 @@
     "class-transformer",
     "transformer"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "yn": "^4.0.0"
+  },
   "devDependencies": {
     "@types/chai": "^4.2.11",
     "@types/faker": "^4.1.12",

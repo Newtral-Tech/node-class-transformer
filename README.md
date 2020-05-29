@@ -47,6 +47,25 @@ const client = plainToClass(User, { postIds: '12345' });
 console.log(client.postIds); // ['2345']
 ```
 
+### @ToBoolean()
+
+A default value can be provided due how to
+[this bug in class-transformer](https://github.com/typestack/class-transformer/issues/231). It uses
+the [yn](https://www.npmjs.com/package/yn) package for transformations
+
+```typescript
+import { ToBoolean } from '@newtral/class-transformer';
+import { plainToClass } from 'class-transformer';
+
+class User {
+  @ToBoolean({ default: false })
+  isAdmin: boolean;
+}
+
+const user = plainToClass(User, { isAdmin: 'true' });
+console.log(user.isAdmin); // true
+```
+
 ## Development
 
 The project use [husky](https://github.com/typicode/husky) and
