@@ -3,10 +3,30 @@
 ## Install
 
 ```bash
-npm install @newtral/class-transformer
+npm install @newtral/class-transformer class-transformer
 ```
 
 ## Usage
+
+### @Default(defaultValue)
+
+Provide a default value when the value is not present or it is undefined
+
+```typescript
+import { Default } from '@newtral/class-transformer';
+import { plainToClass } from 'class-transformer';
+
+class Client {
+  @Default('http://localhost:3000') // Or using a function @Default(() => 'http://localhost:3000')
+  baseUrl: string;
+}
+
+const client = plainToClass(Client, {});
+console.log(client.baseUrl); // 'http://localhost:3000'
+
+const client = plainToClass(Client, { baseUrl: 'https://example.com' });
+console.log(client.baseUrl); // 'https://example.com'
+```
 
 ## Development
 
