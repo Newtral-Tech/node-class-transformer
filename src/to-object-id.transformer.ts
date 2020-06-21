@@ -15,7 +15,11 @@ export function ToObjectId(): TransformerDecorator {
     }
 
     if (type === TransformationType.PLAIN_TO_CLASS || type === TransformationType.CLASS_TO_CLASS) {
-      return typeof value === 'string' ? new ObjectId(value) : value;
+      try {
+        return typeof value === 'string' ? new ObjectId(value) : value;
+      } catch {
+        return value;
+      }
     }
 
     return String(value);

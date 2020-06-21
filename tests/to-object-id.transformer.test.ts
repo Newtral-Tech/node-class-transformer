@@ -3,6 +3,7 @@ import { ToObjectId } from '@newtral/class-transformer';
 import { ObjectId } from 'bson';
 import { expect } from 'chai';
 import { classToClass, classToPlain, plainToClass } from 'class-transformer';
+import faker from 'faker';
 
 describe('@ToObjectId()', () => {
   context('classToPlain()', () => {
@@ -64,7 +65,20 @@ describe('@ToObjectId()', () => {
 
       const test = plainToClass(Test, { test: id });
 
-      expect(test.test.equals(id));
+      expect(test.test.equals(id)).to.be.true;
+    });
+
+    it('should not throw an error when the string can not be converted to object id', () => {
+      class Test {
+        @ToObjectId()
+        test!: ObjectId;
+      }
+
+      const id = faker.random.uuid();
+
+      const test = plainToClass(Test, { test: id });
+
+      expect(test.test).to.be.equal(id);
     });
   });
 });
