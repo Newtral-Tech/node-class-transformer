@@ -9,19 +9,25 @@ import { TransformerDecorator } from './transformer.decorator';
  * * class to plain: converts the object id to it string representation
  */
 export function ToObjectId(): TransformerDecorator {
-  return Transform((value: ObjectId | string, obj, type) => {
-    if (typeof value === 'undefined') {
-      return value;
-    }
+  return (target, property) => {
+    Transform((value: ObjectId | string, obj, type) => {
+      // Try to get the value from the original object first because the deep clone mechanism does not correctly clone object ids objects
+      // https://github.com/typestack/class-transformer/issues/494
+      value = obj[property] ?? value;
 
-    if (type === TransformationType.PLAIN_TO_CLASS || type === TransformationType.CLASS_TO_CLASS) {
-      try {
-        return typeof value === 'string' ? new ObjectId(value) : value;
-      } catch {
+      if (typeof value === 'undefined') {
         return value;
       }
-    }
 
-    return String(value);
-  });
+      if (type === TransformationType.PLAIN_TO_CLASS || type === TransformationType.CLASS_TO_CLASS) {
+        try {
+          return new ObjectId(value);
+        } catch {
+          return value;
+        }
+      }
+
+      return String(value);
+    })(target, property);
+  };
 }
