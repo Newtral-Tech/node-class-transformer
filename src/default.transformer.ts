@@ -11,7 +11,7 @@ import { TransformerDecorator } from './transformer.decorator';
 export function Default(defaultValue: any | (() => any), options?: Omit<ExposeOptions, 'toClassOnly'>): TransformerDecorator {
   const defaultIsFactory = typeof defaultValue === 'function';
 
-  const defaultTransformerDecorator = Transform(value => {
+  const defaultTransformerDecorator = Transform(({ value }) => {
     if (typeof value === 'undefined') {
       return defaultIsFactory ? defaultValue() : defaultValue;
     }

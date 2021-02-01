@@ -8,22 +8,20 @@ import { TransformerDecorator } from './transformer.decorator';
  * It uses the [yn](https://www.npmjs.com/package/yn) package for transformations
  */
 export function ToBoolean(options?: TransformOptions & { default?: boolean }): TransformerDecorator {
-  const toBooleanDecorator: TransformerDecorator = (target, property) => {
-    Transform((value, obj) => {
-      // Grab the value from the object because when explicit transformation are enabled any not empty string is transformed into true
-      value = obj[property];
+  const toBooleanDecorator: TransformerDecorator = Transform(({ value, obj, key }) => {
+    // Grab the value from the object because when explicit transformation are enabled any not empty string is transformed into true
+    value = obj[key];
 
-      if (typeof value === 'undefined' && typeof options?.default !== 'undefined') {
-        return options.default;
-      }
+    if (typeof value === 'undefined' && typeof options?.default !== 'undefined') {
+      return options.default;
+    }
 
-      if (typeof value !== 'undefined') {
-        return yn(value, { default: false });
-      }
+    if (typeof value !== 'undefined') {
+      return yn(value, { default: false });
+    }
 
-      return value;
-    }, options)(target, property);
-  };
+    return value;
+  }, options);
 
   return combineDecorators(Expose(), toBooleanDecorator);
 }

@@ -8,7 +8,7 @@ import { TransformerDecorator } from './transformer.decorator';
  * This could be useful when obtaining multiple query string values but the user only selects one item.
  */
 export function ToArray(): TransformerDecorator {
-  return Transform((value: unknown) => {
+  return Transform(({ value }) => {
     if (typeof value !== 'undefined' && !Array.isArray(value)) {
       return [value];
     }
