@@ -13,13 +13,13 @@ export interface ToObjectIdOptions {
  * * plain to class or class to class: If the object is a string it uses new ObjectId(value)
  * * class to plain: converts the object id to it string representation
  */
-export function ToObjectId({ each }: ToObjectIdOptions): TransformerDecorator {
+export function ToObjectId(options?: ToObjectIdOptions): TransformerDecorator {
   return Transform(({ value, obj, type, key }) => {
     // Try to get the value from the original object first because the deep clone mechanism does not correctly clone object ids objects
     // https://github.com/typestack/class-transformer/issues/494
     value = obj[key] ?? value;
 
-    if (each && Array.isArray(value)) {
+    if (options?.each && Array.isArray(value)) {
       return value.map(id => toObjectId(id, type));
     }
 
