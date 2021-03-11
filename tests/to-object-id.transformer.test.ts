@@ -4,12 +4,13 @@ import { ObjectId } from 'bson';
 import { expect } from 'chai';
 import { classToClass, classToPlain, plainToClass } from 'class-transformer';
 import faker from 'faker';
+import 'reflect-metadata';
 
 describe('@ToObjectId()', () => {
   context('classToPlain()', () => {
     it('should transform an object id into a string', () => {
       class Test {
-        @ToObjectId()
+        @ToObjectId({})
         test!: ObjectId;
       }
 
@@ -25,7 +26,7 @@ describe('@ToObjectId()', () => {
   context('classToClass()', () => {
     it('should transform a string into an object id', () => {
       class Test {
-        @ToObjectId()
+        @ToObjectId({})
         test!: ObjectId;
       }
 
@@ -40,7 +41,7 @@ describe('@ToObjectId()', () => {
 
     it('should keep an object id', () => {
       class Test {
-        @ToObjectId()
+        @ToObjectId({})
         test!: ObjectId;
       }
 
@@ -57,7 +58,7 @@ describe('@ToObjectId()', () => {
   context('plainToClass()', () => {
     it('should transform a string into an object id', () => {
       class Test {
-        @ToObjectId()
+        @ToObjectId({})
         test!: ObjectId;
       }
 
@@ -70,7 +71,7 @@ describe('@ToObjectId()', () => {
 
     it('should not throw an error when the string can not be converted to object id', () => {
       class Test {
-        @ToObjectId()
+        @ToObjectId({})
         test!: ObjectId;
       }
 
@@ -79,6 +80,19 @@ describe('@ToObjectId()', () => {
       const test = plainToClass(Test, { test: id });
 
       expect(test.test).to.be.equal(id);
+    });
+
+    it('should transform an array of object ids', () => {
+      class Test {
+        @ToObjectId({ each: true })
+        test!: ObjectId[];
+      }
+
+      const id = new ObjectId().toHexString();
+      const test = plainToClass(Test, { test: [id] });
+
+      expect(test.test[0]).to.be.instanceOf(ObjectId);
+      expect(test.test[0].equals(id)).to.be.true;
     });
   });
 });
