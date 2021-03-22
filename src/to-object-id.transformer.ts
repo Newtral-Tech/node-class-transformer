@@ -27,8 +27,8 @@ export function ToObjectId(options?: ToObjectIdOptions): TransformerDecorator {
   });
 }
 
-function toObjectId(value: undefined | ObjectId | string, type: TransformationType) {
-  if (typeof value === 'undefined') {
+function toObjectId(value: undefined | null | ObjectId | string, type: TransformationType) {
+  if (value == null) {
     return value;
   }
 

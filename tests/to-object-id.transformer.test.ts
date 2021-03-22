@@ -94,5 +94,27 @@ describe('@ToObjectId()', () => {
       expect(test.test[0]).to.be.instanceOf(ObjectId);
       expect(test.test[0].equals(id)).to.be.true;
     });
+
+    it('should not transform undefined values', async () => {
+      class Test {
+        @ToObjectId()
+        test?: ObjectId;
+      }
+
+      const test = plainToClass(Test, { test: undefined });
+
+      expect(test.test).to.be.undefined;
+    });
+
+    it('should not transform null values', async () => {
+      class Test {
+        @ToObjectId()
+        test!: ObjectId | null;
+      }
+
+      const test = plainToClass(Test, { test: null });
+
+      expect(test.test).to.be.null;
+    });
   });
 });
