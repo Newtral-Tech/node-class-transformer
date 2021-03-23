@@ -1,4 +1,4 @@
-import { ObjectId } from 'bson';
+import { ObjectId } from 'mongodb';
 import { Transform, TransformationType } from 'class-transformer';
 import { TransformerDecorator } from './transformer.decorator';
 

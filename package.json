@@ -25,7 +25,8 @@
     "transformer"
   ],
   "dependencies": {
-    "bson": "*",
+    "@types/mongodb": "^3.6.10",
+    "mongodb": "*",
     "yn": "^4.0.0"
   },
   "devDependencies": {

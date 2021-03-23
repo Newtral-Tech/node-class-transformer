@@ -1,6 +1,6 @@
 // eslint-disable-next-line max-classes-per-file
 import { ToObjectId } from '@newtral/class-transformer';
-import { ObjectId } from 'bson';
+import { ObjectId } from 'mongodb';
 import { expect } from 'chai';
 import { classToClass, classToPlain, plainToClass } from 'class-transformer';
 import faker from 'faker';
