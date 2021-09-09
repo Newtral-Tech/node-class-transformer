@@ -71,6 +71,11 @@
     "release": "standard-version",
     "prepare": "husky install"
   },
+  "release": {
+    "branches": [
+      "main"
+    ]
+  },
   "publishConfig": {
     "access": "public"
   }
