@@ -1,11 +1,11 @@
 import { Expose, Transform, TransformOptions } from 'class-transformer';
-import yn from 'yn';
 import { combineDecorators } from './combine-decorators';
 import { TransformerDecorator } from './transformer.decorator';
 
 /**
  * A default value can be provided due how to [this bug in class-transformer](https://github.com/typestack/class-transformer/issues/231).
- * It uses the [yn](https://www.npmjs.com/package/yn) package for transformations
+ * Truthy values (case in-sensitive): y, yes, true, 1, on
+ * Falsy values (case in-sensitive): n, no, false, 0, off
  */
 export function ToBoolean(options?: TransformOptions & { default?: boolean }): TransformerDecorator {
   const toBooleanDecorator: TransformerDecorator = Transform(({ value, obj, key }) => {
@@ -17,11 +17,23 @@ export function ToBoolean(options?: TransformOptions & { default?: boolean }): T
     }
 
     if (typeof value !== 'undefined') {
-      return yn(value, { default: false });
+      return transform(value, false);
     }
 
     return value;
   }, options);
 
   return combineDecorators(Expose(), toBooleanDecorator);
+}
+
+function transform(value: string, defaultValue?: boolean) {
+  if (/^(?:y|yes|true|1|on)$/i.test(value)) {
+    return true;
+  }
+
+  if (/^(?:n|no|false|0|off)$/i.test(value)) {
+    return false;
+  }
+
+  return defaultValue;
 }

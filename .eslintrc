@@ -13,14 +13,13 @@
     "plugin:prettier/recommended"
   ],
   "parserOptions": {
-    "ecmaVersion": 2018,
+    "ecmaVersion": 2020,
     "sourceType": "module"
   },
   "rules": {
     "arrow-parens": ["error", "as-needed"],
     "camelcase": "error",
     "comma-dangle": ["error", "never"],
-    "indent": ["error", 2],
     "linebreak-style": ["error", "unix"],
     "max-classes-per-file": ["error", 1],
     "no-console": "error",
